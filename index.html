@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Erick Castro · Automação e Sistemas</title>
+  <meta name="description" content="Portfólio de Erick Castro, desenvolvedor de automação e sistemas: plataformas de gestão, web apps em Google Workspace e aplicações full stack.">
+  <meta property="og:title" content="Erick Castro · Automação e Sistemas">
+  <meta property="og:description" content="Sistemas internos, automação em Google Workspace e aplicações web full stack.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/97224642?v=4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101418'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%23d4f25c'%3EEC%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e1114;
+      --surface: #151a1f;
+      --surface-2: #1b2127;
+      --line: #262e36;
+      --text: #e8ecef;
+      --muted: #8b96a1;
+      --accent: #d4f25c;
+      --accent-ink: #11160a;
+      --accent-soft: rgba(212, 242, 92, .1);
+      --radius: 12px;
+      --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+      --font-body: "IBM Plex Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --surface-2: #efeee8;
+      --line: #dedcd3;
+      --text: #15191d;
+      --muted: #5d6670;
+      --accent: #4d6b00;
+      --accent-ink: #ffffff;
+      --accent-soft: rgba(77, 107, 0, .09);
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 16px/1.6 var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      transition: background .25s, color .25s;
+    }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+    .wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+    /* ---------- Header ---------- */
+    header.top {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .brand { font: 500 14px var(--font-mono); text-decoration: none; letter-spacing: .02em; }
+    .brand span { color: var(--accent); }
+    nav { display: flex; align-items: center; gap: 4px; }
+    nav a {
+      font-size: 14px; color: var(--muted); text-decoration: none;
+      padding: 6px 10px; border-radius: 8px; transition: color .15s, background .15s;
+    }
+    nav a:hover { color: var(--text); background: var(--surface-2); }
+    .theme-btn {
+      width: 34px; height: 34px; margin-left: 6px; display: grid; place-items: center;
+      border: 1px solid var(--line); background: var(--surface); color: var(--text);
+      border-radius: 8px; cursor: pointer; transition: border-color .15s;
+    }
+    .theme-btn:hover { border-color: var(--muted); }
+    .theme-btn svg { width: 16px; height: 16px; }
+    @media (max-width: 560px) { nav a.hide-sm { display: none; } }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 96px 0 72px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font: 500 13px var(--font-mono); color: var(--muted);
+      padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px;
+    }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    h1 {
+      font: 700 clamp(40px, 7vw, 76px)/1.02 var(--font-display);
+      letter-spacing: -.035em; margin: 22px 0 20px;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .lead { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: 580px; margin: 0 0 32px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font: 600 15px var(--font-body); text-decoration: none;
+      padding: 11px 18px; border-radius: 10px; border: 1px solid var(--line);
+      transition: transform .15s, background .15s, border-color .15s;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--muted); }
+    .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .btn.primary:hover { filter: brightness(1.06); }
+    .btn svg { width: 17px; height: 17px; }
+    .avatar {
+      width: 200px; height: 200px; border-radius: 24px; object-fit: cover;
+      border: 1px solid var(--line); background: var(--surface-2);
+      transform: rotate(2.5deg);
+    }
+    @media (max-width: 760px) {
+      .hero { padding: 56px 0 48px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .avatar { width: 96px; height: 96px; border-radius: 18px; order: -1; transform: none; }
+    }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line); border-radius: var(--radius); margin-top: 72px;
+      background: var(--surface);
+    }
+    .stat { padding: 22px 24px; border-left: 1px solid var(--line); }
+    .stat:first-child { border-left: 0; }
+    .stat b { display: block; font: 700 30px/1.1 var(--font-display); letter-spacing: -.02em; }
+    .stat span { font-size: 14px; color: var(--muted); }
+    @media (max-width: 760px) {
+      .stats { grid-template-columns: repeat(2, 1fr); margin-top: 48px; }
+      .stat:nth-child(3) { border-left: 0; }
+      .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+    }
+
+    /* ---------- Sections ---------- */
+    section { padding: 72px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+    .kicker { font: 500 13px var(--font-mono); color: var(--accent); margin: 0 0 8px; }
+    h2 { font: 700 clamp(28px, 4vw, 40px)/1.1 var(--font-display); letter-spacing: -.025em; margin: 0; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font: 500 13px var(--font-body); color: var(--muted);
+      background: transparent; border: 1px solid var(--line);
+      padding: 7px 13px; border-radius: 8px; cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--muted); }
+    .chip[aria-pressed="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
+    /* ---------- Project cards ---------- */
+    .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    @media (max-width: 820px) { .projects { grid-template-columns: 1fr; } }
+    .card {
+      position: relative; display: flex; flex-direction: column;
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 26px; transition: border-color .2s, transform .2s;
+      animation: rise .4s ease both;
+    }
+    .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); transform: translateY(-2px); }
+    .card.featured { grid-column: 1 / -1; }
+    @media (min-width: 821px) {
+      .card.featured { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; }
+      .card.featured .modules { align-self: center; }
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .category { font: 500 12px var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .badge {
+      font: 500 12px var(--font-mono); padding: 3px 9px; border-radius: 6px;
+      border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+    }
+    .badge.live { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); background: var(--accent-soft); }
+    .card h3 { font: 700 24px/1.2 var(--font-display); letter-spacing: -.02em; margin: 0 0 10px; }
+    .card p { color: var(--muted); margin: 0 0 18px; }
+    .highlights { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 8px; }
+    .highlights li { position: relative; padding-left: 20px; font-size: 15px; }
+    .highlights li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 2px; background: var(--accent); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .tag { font: 400 12px var(--font-mono); padding: 4px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+    .links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .links a { font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .links a:hover { color: var(--accent); }
+    .links a svg { width: 14px; height: 14px; }
+    .links .note { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+    .links .note svg { width: 13px; height: 13px; }
+
+    .modules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .module { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--bg); }
+    .module b { display: block; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .module span { font-size: 13px; color: var(--muted); line-height: 1.45; display: block; }
+    @media (max-width: 820px) { .modules { margin: 4px 0 22px; } }
+    @media (max-width: 420px) { .modules { grid-template-columns: 1fr; } }
+
+    .empty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 48px; border: 1px dashed var(--line); border-radius: var(--radius); }
+
+    /* ---------- Skills ---------- */
+    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 820px) { .skills { grid-template-columns: 1fr; } }
+    .skill { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; background: var(--surface); }
+    .skill h3 { font: 600 17px var(--font-body); margin: 0 0 6px; }
+    .skill p { font-size: 14px; color: var(--muted); margin: 0 0 16px; }
+
+    /* ---------- About / Contact ---------- */
+    .about { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; }
+    @media (max-width: 820px) { .about { grid-template-columns: 1fr; gap: 20px; } }
+    .about p { color: var(--muted); margin: 0 0 16px; font-size: 17px; }
+    .about p strong { color: var(--text); font-weight: 600; }
+
+    .contact {
+      border: 1px solid var(--line); border-radius: 20px; padding: clamp(32px, 6vw, 64px);
+      background: radial-gradient(120% 140% at 100% 0%, var(--accent-soft), transparent 60%), var(--surface);
+      text-align: center;
+    }
+    .contact h2 { margin-bottom: 12px; }
+    .contact p { color: var(--muted); max-width: 480px; margin: 0 auto 28px; }
+    .contact .cta { justify-content: center; }
+
+    footer { padding: 32px 0 48px; color: var(--muted); font-size: 13px; }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding-top: 24px; }
+    footer span { font-family: var(--font-mono); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="#inicio">erick<span>.</span>castro</a>
+      <nav aria-label="Principal">
+        <a href="#projetos">Projetos</a>
+        <a href="#stack" class="hide-sm">Stack</a>
+        <a href="#sobre" class="hide-sm">Sobre</a>
+        <a href="#contato">Contato</a>
+        <button class="theme-btn" id="themeBtn" type="button" aria-label="Alternar tema claro/escuro">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <div class="wrap hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow"><span class="dot"></span>Brasil · aberto a projetos</span>
+          <h1>Automação e sistemas que <em>organizam</em> o trabalho de verdade.</h1>
+          <p class="lead">Sou Erick Castro, desenvolvedor de automação e sistemas. Transformo planilhas, processos manuais e fluxos soltos em plataformas web integradas, com login, permissões, auditoria e indicadores.</p>
+          <div class="cta">
+            <a class="btn primary" href="#projetos">Ver projetos
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </a>
+            <a class="btn" href="https://github.com/SrKcire" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+              GitHub
+            </a>
+            <a class="btn" href="https://www.linkedin.com/in/erick-v-castro/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+        <img class="avatar" src="https://avatars.githubusercontent.com/u/97224642?v=4" alt="Foto de Erick Castro" width="200" height="200">
+      </div>
+
+      <div class="stats" aria-label="Resumo">
+        <div class="stat"><b>4</b><span>sistemas em produção ou desenvolvimento</span></div>
+        <div class="stat"><b>6</b><span>apps integrados numa só plataforma</span></div>
+        <div class="stat"><b>1</b><span>identidade e auditoria compartilhadas</span></div>
+        <div class="stat"><b>PWA</b><span>instalável no celular e no desktop</span></div>
+      </div>
+    </div>
+
+    <section id="projetos">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">// projetos</p>
+            <h2>Trabalhos selecionados</h2>
+          </div>
+          <div class="filters" role="group" aria-label="Filtrar projetos" id="filters"></div>
+        </div>
+        <div class="projects" id="projectList" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">// stack</p>
+            <h2>Com o que eu trabalho</h2>
+          </div>
+        </div>
+        <div class="skills">
+          <div class="skill">
+            <h3>Automação em Google Workspace</h3>
+            <p>Web apps em Apps Script usando Sheets, Drive e Gmail como infraestrutura, com deploy versionado via clasp.</p>
+            <div class="tags"><span class="tag">Apps Script</span><span class="tag">Google Sheets</span><span class="tag">clasp</span><span class="tag">Gmail/Drive APIs</span></div>
+          </div>
+          <div class="skill">
+            <h3>Aplicações web full stack</h3>
+            <p>Front-ends modernos com backend gerenciado, autenticação, tempo real e regras de acesso no banco.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Supabase</span><span class="tag">PostgreSQL</span></div>
+          </div>
+          <div class="skill">
+            <h3>Dados, acesso e operação</h3>
+            <p>Modelagem de dados, controle de acesso por perfil, trilhas de auditoria, indicadores e documentação viva.</p>
+            <div class="tags"><span class="tag">Firestore</span><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">PWA</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="wrap about">
+        <div>
+          <p class="kicker">// sobre</p>
+          <h2>Sistemas pensados para quem usa todo dia.</h2>
+        </div>
+        <div>
+          <p>Meu foco é <strong>tirar operações do improviso</strong>: juntar planilhas espalhadas, e-mails e controles manuais num lugar só, com cada pessoa vendo exatamente o que precisa.</p>
+          <p>Gosto de aproveitar a infraestrutura que o time já tem, como o Google Workspace, para entregar rápido e sem custo extra. Quando o projeto pede mais, parto para uma stack full stack com banco relacional e tempo real.</p>
+          <p>Documento tudo como parte da entrega: <strong>documento desatualizado é pior que documento ausente</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="wrap">
+        <div class="contact">
+          <p class="kicker">// contato</p>
+          <h2>Tem um processo pedindo um sistema?</h2>
+          <p>Vamos conversar sobre o que hoje vive em planilhas e mensagens e poderia estar funcionando sozinho.</p>
+          <div class="cta">
+            <a class="btn primary" href="mailto:srkcire.m@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              srkcire.m@gmail.com
+            </a>
+            <a class="btn" href="https://www.linkedin.com/in/erick-v-castro/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn" href="https://github.com/SrKcire" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year">2026</span> Erick Castro</span>
+      <span>Feito à mão · HTML, CSS e JS</span>
+    </div>
+  </footer>
+
+  <script>
+    const ICONS = {
+      ext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+      code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>',
+      lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+      sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+      moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>'
+    };
+
+    // Clientes anonimizados e sem detalhes internos: repositórios privados não têm link de código.
+    const PROJECTS = [
+      {
+        title: "Plataforma de Gestão Escolar",
+        category: "Gestão integrada",
+        filter: "workspace",
+        status: { label: "Em produção", live: true },
+        featured: true,
+        description: "Ecossistema de aplicativos para a operação administrativa de uma instituição de ensino. Uma porta de entrada única identifica a pessoa pela conta institucional e mostra só os módulos a que ela tem acesso.",
+        highlights: [
+          "Identidade, permissões por setor e log de auditoria compartilhados por todos os módulos",
+          "Cada módulo é um app independente que revalida o acesso a cada chamada",
+          "Documentação viva, atualizada junto com cada mudança no código"
+        ],
+        modules: [
+          { name: "Portal", text: "Usuários, setores, permissões e auditoria" },
+          { name: "Agenda", text: "Projetos em quadro, automações, chat e calendário" },
+          { name: "GED", text: "Arquivo, retirada, descarte e digitalização de documentos" },
+          { name: "Mecanografia", text: "Ordens de serviço, produção gráfica e estoque" },
+          { name: "Indicadores", text: "KPIs de compras, serviços e atendimentos" },
+          { name: "Atendimento", text: "Plano de atendimento de demandas" }
+        ],
+        tags: ["Apps Script", "Firestore", "JavaScript", "Google Workspace", "Python"],
+        links: []
+      },
+      {
+        title: "eamus.",
+        category: "Produto · app social",
+        filter: "fullstack",
+        status: { label: "Em desenvolvimento" },
+        description: "App social para descobrir eventos como shows, pagode, forró e festivais, com presença confirmada, ingressos, chat e feed de amigos.",
+        highlights: [
+          "Grafo social com seguir, feed de amigos e notificações automáticas",
+          "Mensagens diretas em tempo real",
+          "Regras de acesso aplicadas no próprio banco, em todas as tabelas"
+        ],
+        tags: ["Next.js", "TypeScript", "Tailwind", "Supabase", "PostgreSQL", "Realtime"],
+        note: "Projeto próprio · código privado",
+        links: []
+      },
+      {
+        title: "Financeiro",
+        category: "Finanças · multiusuário",
+        filter: "workspace",
+        status: { label: "Em produção", live: true },
+        description: "Sistema financeiro multiusuário rodando como Web App, com planilhas como base de dados, mais uma versão instalável que abre em tela cheia no celular e no computador.",
+        highlights: [
+          "PWA com ícone próprio, instalação no Android, iOS e desktop",
+          "Atualizações publicadas chegam ao app instalado sem reinstalar",
+          "Aviso de conexão e abertura rápida com cache da casca do app"
+        ],
+        tags: ["Apps Script", "Google Sheets", "JavaScript", "PWA", "Service Worker"],
+        links: [{ label: "Código do app instalável", href: "https://github.com/SrKcire/financeiro-app", icon: "code" }]
+      },
+      {
+        title: "Cockpit Editorial",
+        category: "Marketing · audiovisual",
+        filter: "workspace",
+        status: { label: "Em produção", live: true },
+        description: "Central de controle editorial e de marketing para os lançamentos de uma distribuidora de filmes, usada por várias equipes e agências parceiras.",
+        highlights: [
+          "Cronograma, elenco, eventos, entregas e mapa digital de cada lançamento",
+          "Login próprio com controle de acesso por perfil",
+          "Resumos automáticos por e-mail, diários e semanais"
+        ],
+        tags: ["Apps Script", "Google Sheets", "JavaScript", "clasp"],
+        links: []
+      }
+    ];
+
+    const FILTERS = [
+      { id: "all", label: "Todos" },
+      { id: "workspace", label: "Google Workspace" },
+      { id: "fullstack", label: "Full stack" }
+    ];
+
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    function cardHTML(p, i) {
+      const modules = p.modules
+        ? `<div class="modules">${p.modules.map(m => `<div class="module"><b>${esc(m.name)}</b><span>${esc(m.text)}</span></div>`).join("")}</div>`
+        : "";
+      const links = p.links.length
+        ? p.links.map(l => `<a href="${esc(l.href)}" target="_blank" rel="noopener">${ICONS[l.icon]}${esc(l.label)}</a>`).join("")
+        : "";
+      const privateNote = p.links.length ? "" : `<span class="note">${ICONS.lock}${esc(p.note || "Projeto para cliente · código privado")}</span>`;
+      const body = `
+        <div>
+          <div class="card-top">
+            <span class="category">${esc(p.category)}</span>
+            <span class="badge${p.status.live ? " live" : ""}">${esc(p.status.label)}</span>
+          </div>
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.description)}</p>
+          <ul class="highlights">${p.highlights.map(h => `<li>${esc(h)}</li>`).join("")}</ul>
+          <div class="tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+          <div class="links">${links}${privateNote}</div>
+        </div>`;
+      return `<article class="card${p.featured ? " featured" : ""}" style="animation-delay:${i * 60}ms">${body}${modules}</article>`;
+    }
+
+    const list = document.getElementById("projectList");
+    const filtersEl = document.getElementById("filters");
+    let active = "all";
+
+    function render() {
+      const items = PROJECTS.filter(p => active === "all" || p.filter === active);
+      list.innerHTML = items.length
+        ? items.map(cardHTML).join("")
+        : `<div class="empty">Nenhum projeto nesta categoria ainda.</div>`;
+      filtersEl.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === active));
+    }
+
+    filtersEl.innerHTML = FILTERS.map(f => `<button class="chip" type="button" data-id="${f.id}">${f.label}</button>`).join("");
+    filtersEl.addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      active = btn.dataset.id;
+      render();
+    });
+    render();
+
+    // Tema: segue o sistema, com preferência salva quando o visitante troca.
+    const root = document.documentElement;
+    const icon = document.getElementById("themeIcon");
+    const stored = (() => { try { return localStorage.getItem("theme"); } catch { return null; } })();
+    const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    function applyTheme(t) {
+      root.dataset.theme = t;
+      icon.innerHTML = t === "light" ? ICONS.moon : ICONS.sun;
+    }
+    applyTheme(stored || (prefersLight ? "light" : "dark"));
+    document.getElementById("themeBtn").addEventListener("click", () => {
+      const next = root.dataset.theme === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem("theme", next); } catch {}
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

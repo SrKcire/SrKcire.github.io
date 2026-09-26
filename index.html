@@ -7,7 +7,6 @@
   <meta name="description" content="Portfólio de Erick Castro, desenvolvedor de automação e sistemas: plataformas de gestão, web apps em Google Workspace e aplicações full stack.">
   <meta property="og:title" content="Erick Castro · Automação e Sistemas">
   <meta property="og:description" content="Sistemas internos, automação em Google Workspace e aplicações web full stack.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/97224642?v=4">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101418'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%23d4f25c'%3EEC%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,7 +84,7 @@
 
     /* ---------- Hero ---------- */
     .hero { padding: 96px 0 72px; }
-    .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+    .hero-grid { max-width: 780px; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font: 500 13px var(--font-mono); color: var(--muted);
@@ -109,15 +108,16 @@
     .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
     .btn.primary:hover { filter: brightness(1.06); }
     .btn svg { width: 17px; height: 17px; }
-    .avatar {
-      width: 200px; height: 200px; border-radius: 24px; object-fit: cover;
-      border: 1px solid var(--line); background: var(--surface-2);
-      transform: rotate(2.5deg);
-    }
     @media (max-width: 760px) {
       .hero { padding: 56px 0 48px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-      .avatar { width: 96px; height: 96px; border-radius: 18px; order: -1; transform: none; }
+    }
+
+    /* Fundo animado: rede de nós, esmaece conforme a página desce */
+    #bg {
+      position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.35) 100%);
+              mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.35) 100%);
     }
 
     .stats {
@@ -231,6 +231,7 @@
   </style>
 </head>
 <body>
+  <canvas id="bg" aria-hidden="true"></canvas>
   <header class="top">
     <div class="wrap">
       <a class="brand" href="#inicio">erick<span>.</span>castro</a>
@@ -267,7 +268,6 @@
             </a>
           </div>
         </div>
-        <img class="avatar" src="https://avatars.githubusercontent.com/u/97224642?v=4" alt="Foto de Erick Castro" width="200" height="200">
       </div>
 
       <div class="stats" aria-label="Resumo">
@@ -507,6 +507,83 @@
     });
 
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Fundo: nós que derivam devagar e se ligam quando ficam próximos; o cursor puxa conexões.
+    (() => {
+      const canvas = document.getElementById("bg");
+      const ctx = canvas.getContext("2d");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const LINK = 150;
+      let w, h, dpr, nodes = [], color = "212,242,92", raf = null;
+      const pointer = { x: -9999, y: -9999 };
+
+      function readColor() {
+        const hex = getComputedStyle(root).getPropertyValue("--accent").trim().replace("#", "");
+        color = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16)).join(",");
+      }
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.round(Math.min(90, (w * h) / 16000));
+        nodes = Array.from({ length: count }, () => ({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3,
+          r: Math.random() * 1.4 + .6
+        }));
+      }
+
+      function draw(move) {
+        ctx.clearRect(0, 0, w, h);
+        const light = root.dataset.theme === "light";
+        const alpha = light ? .5 : .35;
+        for (const n of nodes) {
+          if (move) {
+            n.x += n.vx; n.y += n.vy;
+            if (n.x < -20) n.x = w + 20; else if (n.x > w + 20) n.x = -20;
+            if (n.y < -20) n.y = h + 20; else if (n.y > h + 20) n.y = -20;
+          }
+        }
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            const d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < LINK) {
+              ctx.strokeStyle = `rgba(${color},${(1 - d / LINK) * alpha * .55})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+          const dp = Math.hypot(a.x - pointer.x, a.y - pointer.y);
+          if (dp < LINK * 1.3) {
+            ctx.strokeStyle = `rgba(${color},${(1 - dp / (LINK * 1.3)) * alpha})`;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(pointer.x, pointer.y); ctx.stroke();
+          }
+          ctx.fillStyle = `rgba(${color},${alpha + .25})`;
+          ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      function loop() { draw(true); raf = requestAnimationFrame(loop); }
+      function start() {
+        cancelAnimationFrame(raf); raf = null;
+        if (reduced.matches) draw(false); else loop();
+      }
+
+      readColor(); resize(); start();
+      window.addEventListener("resize", () => { resize(); if (reduced.matches) draw(false); });
+      window.addEventListener("pointermove", e => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
+      document.documentElement.addEventListener("pointerleave", () => { pointer.x = pointer.y = -9999; });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) { cancelAnimationFrame(raf); raf = null; } else start();
+      });
+      reduced.addEventListener("change", start);
+      new MutationObserver(() => { readColor(); if (reduced.matches) draw(false); })
+        .observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    })();
   </script>
 </body>
 </html>
